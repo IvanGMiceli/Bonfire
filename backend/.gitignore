@@ -1,0 +1,23 @@
+# Dependencias
+/node_modules
+
+# Compilación
+/dist
+
+# Variables de entorno (conexión a Mongo, secreto del JWT)
+.env
+.env.*
+
+# Pruebas
+/coverage
+
+# Logs
+*.log
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
