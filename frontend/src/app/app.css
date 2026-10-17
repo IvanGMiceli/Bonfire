@@ -32,10 +32,12 @@
 .enlaces {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.6rem;
 }
 
-.enlaces a {
+.enlaces a,
+.salir {
   padding: 0.45rem 1.1rem;
   border: 1px solid var(--dorado);
   border-radius: 8px;
@@ -48,7 +50,8 @@
     background 0.15s;
 }
 
-.enlaces a:hover {
+.enlaces a:hover,
+.salir:hover {
   color: var(--fondo);
   background: var(--dorado);
 }
@@ -57,6 +60,18 @@
   color: var(--fondo);
   background: var(--dorado);
   box-shadow: 0 0 14px rgba(201, 162, 77, 0.35);
+}
+
+.salir {
+  background: transparent;
+  cursor: pointer;
+}
+
+.sesion {
+  padding: 0 0.4rem 0 0.8rem;
+  border-left: 1px solid var(--borde);
+  font-size: 0.9rem;
+  color: var(--texto-suave);
 }
 
 main {

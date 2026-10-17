@@ -6,9 +6,15 @@
 
   <div class="enlaces">
     <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
-    <a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
-    <a routerLink="/login" routerLinkActive="activo">Login</a>
-    <a routerLink="/registro" routerLinkActive="activo">Registro</a>
+
+    @if (auth.usuario(); as usuario) {
+      <a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
+      <span class="sesion">{{ usuario.nombreUsuario }}</span>
+      <button class="salir" (click)="salir()">Salir</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="activo">Login</a>
+      <a routerLink="/registro" routerLinkActive="activo">Registro</a>
+    }
   </div>
 </nav>
 
