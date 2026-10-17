@@ -1,1 +1,187 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --fondo: #12100e;
+  --superficie: #1c1814;
+  --superficie-alta: #252019;
+  --borde: #3a3026;
+  --brasa: #ea580c;
+  --brasa-clara: #f97316;
+  --ambar: #fbbf24;
+  --dorado: #c9a24d;
+  --texto: #e8dcc4;
+  --texto-suave: #a8998a;
+  --error: #f87171;
+  --exito: #86c26b;
+
+  --f-titulo: 'Cinzel', Georgia, serif;
+  --f-cuerpo: 'Inter', system-ui, sans-serif;
+
+  --radio: 10px;
+  --ancho-maximo: 1100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 105%, rgba(234, 88, 12, 0.14), transparent 70%),
+    var(--fondo);
+  background-attachment: fixed;
+  color: var(--texto);
+  font-family: var(--f-cuerpo);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--f-titulo);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--dorado);
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--ambar);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brasa-clara);
+}
+
+:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+
+.caja {
+  width: min(100% - 2rem, 460px);
+  margin: 3rem auto;
+  padding: 2rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-top: 2px solid var(--dorado);
+  border-radius: var(--radio);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.caja h2 {
+  text-align: center;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fila .campo {
+  min-width: 0;
+}
+
+label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  background: var(--fondo);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 3px rgba(201, 162, 77, 0.2);
+}
+
+input[type='file'] {
+  padding: 0.5rem;
+  color: var(--texto-suave);
+}
+
+input[type='date'] {
+  color-scheme: dark;
+}
+
+.boton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--brasa);
+  color: var(--fondo);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--f-titulo);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.boton:hover:not(:disabled) {
+  background: var(--brasa-clara);
+}
+
+.boton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error-campo {
+  font-size: 0.8rem;
+  color: var(--error);
+}
+
+.mensaje-error {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(248, 113, 113, 0.08);
+  border-left: 3px solid var(--error);
+  border-radius: 4px;
+  color: var(--error);
+}
+
+.mensaje-exito {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(134, 194, 107, 0.08);
+  border-left: 3px solid var(--exito);
+  border-radius: 4px;
+  color: var(--exito);
+}
+
+@media (max-width: 520px) {
+  .fila {
+    grid-template-columns: 1fr;
+  }
+}
