@@ -3,6 +3,7 @@
 
 # Compilación
 /dist
+*.tsbuildinfo
 
 # Variables de entorno (conexión a Mongo, secreto del JWT)
 .env
