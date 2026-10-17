@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Flesh and Blood';
+  src: url('/fonts/Fleshandblood.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   --fondo: #12100e;
   --superficie: #1c1814;
@@ -12,7 +18,7 @@
   --error: #f87171;
   --exito: #86c26b;
 
-  --f-titulo: 'Cinzel', Georgia, serif;
+  --f-titulo: 'Flesh and Blood', 'Cinzel', Georgia, serif;
   --f-cuerpo: 'Inter', system-ui, sans-serif;
 
   --radio: 10px;
@@ -43,8 +49,8 @@ h1,
 h2,
 h3 {
   font-family: var(--f-titulo);
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   color: var(--dorado);
   margin: 0 0 1rem;
 }
@@ -141,9 +147,9 @@ input[type='date'] {
   border: none;
   border-radius: 8px;
   font-family: var(--f-titulo);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.15s;
 }
