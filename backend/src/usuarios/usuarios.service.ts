@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 
 @Injectable()
 export class UsuariosService {
-    private usuarios = [
-        { id: 1, nombre: 'Solaire' },
-        { id: 2, nombre: 'Guts' }
-    ];
+  constructor(
+    @InjectModel(Usuario.name)
+    private readonly usuarioModel: Model<UsuarioDocument>,
+  ) {}
 
-    obtenerTodos() {
-        return this.usuarios;
-    }
+  async obtenerTodos() {
+    return this.usuarioModel.find().exec();
+  }
 }
-
