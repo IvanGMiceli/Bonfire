@@ -5,12 +5,20 @@ import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 
 @Injectable()
 export class UsuariosService {
-  constructor(
-    @InjectModel(Usuario.name)
-    private readonly usuarioModel: Model<UsuarioDocument>,
+  constructor(   
+  @InjectModel(Usuario.name) 
+  private readonly usuarioModel: Model<UsuarioDocument>
   ) {}
 
   async obtenerTodos() {
     return this.usuarioModel.find().exec();
+  }
+
+  async buscarPorCorreoONombreUsuario(correo: string, nombreUsuario: string) {
+    return this.usuarioModel.findOne({ $or: [{ correo: correo.toLowerCase() }, { nombreUsuario }] }).exec();
+  }
+
+  async crear(datos: Partial<Usuario>) {
+    return this.usuarioModel.create(datos);
   }
 }
