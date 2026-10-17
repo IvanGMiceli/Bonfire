@@ -11,7 +11,7 @@ export class UsuariosService {
   ) {}
 
   async obtenerTodos() {
-    return this.usuarioModel.find().exec();
+    return this.usuarioModel.find().select('-clave').exec();
   }
 
   async buscarPorCorreoONombreUsuario(correo: string, nombreUsuario: string) {
