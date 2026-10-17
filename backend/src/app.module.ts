@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { AlmacenamientoModule } from './almacenamiento/almacenamiento.module';
+import { PublicacionesModule } from './publicaciones/publicaciones.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AlmacenamientoModule } from './almacenamiento/almacenamiento.module';
     UsuariosModule,
     AutenticacionModule,
     AlmacenamientoModule,
+    PublicacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
