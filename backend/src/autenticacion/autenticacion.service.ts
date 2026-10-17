@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { RegistroDto } from './dto/registro.dto';
+import { LoginDto } from './dto/login.dto';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { AlmacenamientoService } from '../almacenamiento/almacenamiento.service';
 
@@ -48,5 +49,24 @@ export class AutenticacionService {
     });
 
     return { mensaje: 'Usuario registrado' };
+  }
+
+  async login(datos: LoginDto) {
+    const usuario = await this.usuariosService.buscarPorCorreoONombreUsuario(
+      datos.correoOUsuario,
+      datos.correoOUsuario,
+    );
+    
+    if (!usuario) {
+      throw new UnauthorizedException('Usuario o contraseña incorrectos');
+    }
+
+    const claveCorrecta = await bcrypt.compare(datos.clave, usuario.clave);
+    if (!claveCorrecta) {
+      throw new UnauthorizedException('Usuario o contraseña incorrectos');
+    }
+
+    const { clave, ...usuarioSinClave } = usuario.toObject();
+    return usuarioSinClave;
   }
 }
