@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormField, form, minLength, pattern, required } from '@angular/forms/signals';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Auth } from '../../servicios/auth';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 
@@ -14,6 +14,8 @@ import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 export class Login {
   private auth = inject(Auth);
   private router = inject(Router);
+
+  registrado = inject(ActivatedRoute).snapshot.queryParamMap.has('registrado');
 
   modelo = signal({ correoOUsuario: '', clave: '' });
 

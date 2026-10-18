@@ -1,0 +1,10 @@
+.caja {
+  width: min(100% - 2rem, 600px);
+}
+
+.alternativa {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}

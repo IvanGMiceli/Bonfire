@@ -1,1 +1,100 @@
-<p>registro works!</p>
+<section class="caja">
+  <h2>Crear cuenta</h2>
+
+  <div class="fila">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" [formField]="formulario.nombre" />
+      @if (formulario.nombre().touched() && formulario.nombre().invalid()) {
+        @for (err of formulario.nombre().errors(); track err) {
+          <small class="error-campo">{{ err.message }}</small>
+        }
+      }
+    </div>
+    <div class="campo">
+      <label for="apellido">Apellido</label>
+      <input id="apellido" type="text" [formField]="formulario.apellido" />
+      @if (formulario.apellido().touched() && formulario.apellido().invalid()) {
+        @for (err of formulario.apellido().errors(); track err) {
+          <small class="error-campo">{{ err.message }}</small>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="correo">Correo</label>
+    <input id="correo" type="email" [formField]="formulario.correo" placeholder="ashen@bonfire.com" />
+    @if (formulario.correo().touched() && formulario.correo().invalid()) {
+      @for (err of formulario.correo().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="nombreUsuario">Nombre de usuario</label>
+    <input id="nombreUsuario" type="text" [formField]="formulario.nombreUsuario" placeholder="ashenone" />
+    @if (formulario.nombreUsuario().touched() && formulario.nombreUsuario().invalid()) {
+      @for (err of formulario.nombreUsuario().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="fila">
+    <div class="campo">
+      <label for="clave">Contraseña</label>
+      <input id="clave" type="password" [formField]="formulario.clave" placeholder="Mínimo 8 caracteres" />
+      @if (formulario.clave().touched() && formulario.clave().invalid()) {
+        @for (err of formulario.clave().errors(); track err) {
+          <small class="error-campo">{{ err.message }}</small>
+        }
+      }
+    </div>
+    <div class="campo">
+      <label for="repetirClave">Repetir contraseña</label>
+      <input id="repetirClave" type="password" [formField]="formulario.repetirClave" />
+      @if (formulario.repetirClave().touched() && formulario.repetirClave().invalid()) {
+        @for (err of formulario.repetirClave().errors(); track err) {
+          <small class="error-campo">{{ err.message }}</small>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="fechaNacimiento">Fecha de nacimiento</label>
+    <input id="fechaNacimiento" type="date" [formField]="formulario.fechaNacimiento" />
+    @if (formulario.fechaNacimiento().touched() && formulario.fechaNacimiento().invalid()) {
+      @for (err of formulario.fechaNacimiento().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="descripcion">Descripción breve (opcional)</label>
+    <textarea id="descripcion" [formField]="formulario.descripcion" placeholder="Contá algo de vos, Ashen One"></textarea>
+    @if (formulario.descripcion().touched() && formulario.descripcion().invalid()) {
+      @for (err of formulario.descripcion().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="imagenPerfil">Foto de perfil (opcional)</label>
+    <input id="imagenPerfil" type="file" accept="image/png, image/jpeg, image/webp" (change)="elegirImagen($event)"/>
+  </div>
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <button class="boton" (click)="registrarse()" [disabled]="cargando()">
+    {{ cargando() ? 'Encendiendo la hoguera...' : 'Crear cuenta' }}
+  </button>
+
+  <p class="alternativa">¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>
+</section>
