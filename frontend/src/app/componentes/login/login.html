@@ -1,1 +1,34 @@
-<p>login works!</p>
+<section class="caja">
+  <h2>Iniciar sesión</h2>
+
+  <div class="campo">
+    <label for="correoOUsuario">Correo o nombre de usuario</label>
+    <input id="correoOUsuario" type="text" [formField]="formulario.correoOUsuario" placeholder="ashen@bonfire.com o ashenone"/>
+    
+    @if (formulario.correoOUsuario().touched() && formulario.correoOUsuario().invalid()) {
+      @for (err of formulario.correoOUsuario().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="clave">Contraseña</label>
+    <input id="clave" type="password" [formField]="formulario.clave" placeholder="Tu contraseña" />
+    @if (formulario.clave().touched() && formulario.clave().invalid()) {
+      @for (err of formulario.clave().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <button class="boton" (click)="ingresar()" [disabled]="cargando()">
+    {{ cargando() ? 'Encendiendo la hoguera...' : 'Ingresar' }}
+  </button>
+
+  <p class="alternativa">¿Todavía no tenés cuenta? <a routerLink="/registro">Registrate</a></p>
+</section>

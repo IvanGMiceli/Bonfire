@@ -18,7 +18,7 @@
   --error: #f87171;
   --exito: #86c26b;
 
-  --f-titulo: 'Flesh and Blood', 'Cinzel', Georgia, serif;
+  --f-titulo: 'Flesh and Blood', Georgia, serif;
   --f-cuerpo: 'Inter', system-ui, sans-serif;
 
   --radio: 10px;
@@ -128,6 +128,20 @@ textarea:focus {
   outline: none;
   border-color: var(--dorado);
   box-shadow: 0 0 0 3px rgba(201, 162, 77, 0.2);
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--texto);
+  caret-color: var(--texto);
+  box-shadow: 0 0 0 1000px var(--fondo) inset;
+  transition: background-color 9999s;
+}
+
+input:-webkit-autofill:focus {
+  box-shadow:
+    0 0 0 1000px var(--fondo) inset,
+    0 0 0 3px rgba(201, 162, 77, 0.2);
 }
 
 input[type='file'] {

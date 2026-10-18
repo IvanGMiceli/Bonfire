@@ -70,8 +70,10 @@
 .sesion {
   padding: 0 0.4rem 0 0.8rem;
   border-left: 1px solid var(--borde);
-  font-size: 0.9rem;
-  color: var(--texto-suave);
+  font-family: var(--f-titulo);
+  font-size: 1.2rem;
+  letter-spacing: 0.03em;
+  color: var(--ambar);
 }
 
 main {
