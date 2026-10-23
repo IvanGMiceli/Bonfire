@@ -13,10 +13,14 @@ export class Auth {
   usuario = signal<Usuario | null>(null);
 
   async iniciarSesion(correoOUsuario: string, clave: string): Promise<void> {
-    const usuario = await firstValueFrom(
-      this.http.post<Usuario>(`${this.url}/login`, { correoOUsuario, clave }),
+    const respuesta = await firstValueFrom(
+      this.http.post<{ usuario: Usuario; token: string }>(`${this.url}/login`, {
+        correoOUsuario,
+        clave,
+      }),
     );
-    this.usuario.set(usuario);
+    localStorage.setItem('token', respuesta.token);
+    this.usuario.set(respuesta.usuario);
   }
 
   async registrarse(datos: Registro, imagen: File | null): Promise<void> {
@@ -38,6 +42,7 @@ export class Auth {
   }
 
   cerrarSesion(): void {
+    localStorage.removeItem('token');
     this.usuario.set(null);
   }
 }

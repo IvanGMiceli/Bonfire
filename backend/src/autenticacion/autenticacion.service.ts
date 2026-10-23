@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
@@ -10,6 +11,7 @@ export class AutenticacionService {
   constructor(
     private readonly usuariosService: UsuariosService,
     private readonly almacenamientoService: AlmacenamientoService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async registro(datos: RegistroDto, imagen?: Express.Multer.File) {
@@ -66,7 +68,12 @@ export class AutenticacionService {
       throw new UnauthorizedException('Usuario o contraseña incorrectos');
     }
 
+    const token = await this.jwtService.signAsync({
+      sub: usuario._id.toString(),
+      perfil: usuario.perfil,
+    });
+
     const { clave, ...usuarioSinClave } = usuario.toObject();
-    return usuarioSinClave;
+    return { usuario: usuarioSinClave, token };
   }
 }
