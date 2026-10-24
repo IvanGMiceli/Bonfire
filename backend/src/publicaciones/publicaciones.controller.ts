@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicacionesService } from './publicaciones.service';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto';
@@ -18,5 +18,10 @@ export class PublicacionesController {
     @UploadedFile() imagen?: Express.Multer.File,
   ) {
     return this.publicacionesService.crear(datos, pedido.usuario.sub, imagen);
+  }
+
+  @Get()
+  obtenerTodas() {
+    return this.publicacionesService.obtenerTodas();
   }
 }

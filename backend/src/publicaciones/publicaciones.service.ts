@@ -26,4 +26,12 @@ export class PublicacionesService {
       autor: new Types.ObjectId(autorId),
     });
   }
+
+  async obtenerTodas() {
+    return this.publicacionModel
+      .find({ activo: true })
+      .sort({ createdAt: -1 })
+      .populate('autor', 'nombreUsuario imagenPerfil')
+      .exec();
+  }
 }
