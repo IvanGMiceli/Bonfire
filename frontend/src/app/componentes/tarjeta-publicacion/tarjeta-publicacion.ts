@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Publicacion } from '../../modelos/publicacion';
 
 @Component({
-  imports: [],
+  imports: [DatePipe],
   selector: 'app-tarjeta-publicacion',
   styleUrl: './tarjeta-publicacion.css',
   templateUrl: './tarjeta-publicacion.html',
 })
-export class TarjetaPublicacion {}
+export class TarjetaPublicacion {
+  @Input({ required: true }) publicacion!: Publicacion;
+  @Input() esMia = false;
+  @Input() leDiMeGusta = false;
+
+  @Output() meGusta = new EventEmitter<Publicacion>();
+  @Output() eliminar = new EventEmitter<Publicacion>();
+}
