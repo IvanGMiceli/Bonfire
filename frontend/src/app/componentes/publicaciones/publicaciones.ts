@@ -1,5 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
+import { NuevaPublicacion } from '../nueva-publicacion/nueva-publicacion';
 import { PublicacionesService } from '../../servicios/publicaciones';
 import { Auth } from '../../servicios/auth';
 import { OrdenPublicaciones, Publicacion } from '../../modelos/publicacion';
@@ -8,7 +9,7 @@ import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 const POR_PAGINA = 5;
 
 @Component({
-  imports: [TarjetaPublicacion],
+  imports: [TarjetaPublicacion, NuevaPublicacion],
   selector: 'app-publicaciones',
   styleUrl: './publicaciones.css',
   templateUrl: './publicaciones.html',
@@ -58,6 +59,12 @@ export class Publicaciones implements OnInit {
       return;
     }
     this.orden.set(orden);
+    this.pagina.set(0);
+    this.cargar();
+  }
+
+  alPublicar() {
+    this.orden.set('fecha');
     this.pagina.set(0);
     this.cargar();
   }

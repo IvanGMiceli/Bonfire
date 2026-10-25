@@ -1,0 +1,37 @@
+<section class="nueva">
+  <h3>Dejá tu mensaje en el suelo</h3>
+
+  <div class="campo">
+    <label for="titulo">Título</label>
+    <input id="titulo" type="text" [formField]="formulario.titulo" placeholder="Forjado en ruinas" />
+    @if (formulario.titulo().touched() && formulario.titulo().invalid()) {
+      @for (err of formulario.titulo().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="mensaje">Mensaje</label>
+    <textarea id="mensaje" [formField]="formulario.mensaje" placeholder="Contame que pasa por tu cabeza Ashen One"></textarea>
+    <small class="contador">{{ modelo().mensaje.length }}/200</small>
+    @if (formulario.mensaje().touched() && formulario.mensaje().invalid()) {
+      @for (err of formulario.mensaje().errors(); track err) {
+        <small class="error-campo">{{ err.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="campo">
+    <label for="imagen">Imagen (opcional)</label>
+    <input #selectorImagen id="imagen" type="file" accept="image/png, image/jpeg, image/webp" (change)="elegirImagen($event)" />
+  </div>
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <button class="boton" (click)="publicar(selectorImagen)" [disabled]="publicando()">
+    {{ publicando() ? 'Encendiendo la hoguera...' : 'Publicar' }}
+  </button>
+</section>

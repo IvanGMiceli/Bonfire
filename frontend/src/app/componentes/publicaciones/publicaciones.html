@@ -11,6 +11,8 @@
     </div>
   </header>
 
+  <app-nueva-publicacion (publicada)="alPublicar()" />
+
   @if (error()) {
     <p class="mensaje-error">{{ error() }}</p>
   }
