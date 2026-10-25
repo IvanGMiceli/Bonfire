@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicacionesService } from './publicaciones.service';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto';
@@ -21,7 +21,12 @@ export class PublicacionesController {
   }
 
   @Get()
-  obtenerTodas() {
-    return this.publicacionesService.obtenerTodas();
+  obtenerTodas(
+    @Query('offset', new ParseIntPipe({ optional: true })) offset?: number,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number,
+    @Query('orden') orden?: string,
+    @Query('usuario') usuario?: string,
+  ) {
+    return this.publicacionesService.obtenerTodas(offset, limit, orden, usuario);
   }
 }
