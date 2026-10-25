@@ -1,1 +1,57 @@
-<p>perfil works!</p>
+@if (auth.usuario(); as usuario) {
+  <section class="perfil">
+    <div class="ficha">
+      @if (usuario.imagenPerfil) {
+        <img class="foto" [src]="usuario.imagenPerfil" [alt]="usuario.nombreUsuario" />
+      } @else {
+        <span class="foto sin-foto">{{ usuario.nombreUsuario.charAt(0) }}</span>
+      }
+
+      <div class="datos">
+        <h2>{{ usuario.nombreUsuario }}</h2>
+        <p class="descripcion">{{ usuario.descripcion || 'Sin descripción, Ashen One.' }}</p>
+
+        <dl>
+          <dt>Nombre</dt>
+          <dd>{{ usuario.nombre }} {{ usuario.apellido }}</dd>
+          <dt>Correo</dt>
+          <dd>{{ usuario.correo }}</dd>
+          <dt>Nacimiento</dt>
+          <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+          <dt>Perfil</dt>
+          <dd class="rol">{{ usuario.perfil }}</dd>
+          <dt>En Bonfire desde</dt>
+          <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <h3 class="subtitulo">Mis últimas publicaciones</h3>
+
+    @if (error()) {
+      <p class="mensaje-error">{{ error() }}</p>
+    }
+
+    @if (cargando()) {
+      <p class="estado">Avivando la hoguera...</p>
+    } @else if (ultimas().length === 0 && !error()) {
+      <p class="estado">Todavía no dejaste mensajes en el suelo.</p>
+    } @else {
+      <div class="lista">
+        @for (publicacion of ultimas(); track publicacion._id) {
+          <div class="bloque">
+            <app-tarjeta-publicacion
+              [publicacion]="publicacion"
+              [leDiMeGusta]="leDiMeGusta(publicacion)"
+              (meGusta)="alternarMeGusta($event)" />
+
+            <div class="comentarios">
+              <h4>Comentarios</h4>
+              <p>Todavía no hay comentarios.</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+}
