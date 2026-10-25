@@ -10,7 +10,7 @@ import { Publicacion } from '../../modelos/publicacion';
 })
 export class TarjetaPublicacion {
   @Input({ required: true }) publicacion!: Publicacion;
-  @Input() esMia = false;
+  @Input() puedeEliminar = false;
   @Input() leDiMeGusta = false;
 
   @Output() meGusta = new EventEmitter<Publicacion>();

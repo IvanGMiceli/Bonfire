@@ -23,7 +23,7 @@
       ☀ {{ publicacion.cantidadMeGusta }}
     </button>
 
-    @if (esMia) {
+    @if (puedeEliminar) {
       <button type="button" class="eliminar" (click)="eliminar.emit(publicacion)">Eliminar</button>
     }
   </footer>

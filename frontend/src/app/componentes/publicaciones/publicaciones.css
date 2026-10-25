@@ -1,0 +1,121 @@
+.pagina {
+  width: min(100% - 2rem, 680px);
+  margin: 2.5rem auto;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.encabezado h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.orden {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.orden button,
+.paginacion button,
+.acciones-modal button {
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: 1px solid var(--dorado);
+  border-radius: 8px;
+  color: var(--dorado);
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.orden button:hover,
+.paginacion button:hover:not(:disabled) {
+  background: rgba(201, 162, 77, 0.12);
+}
+
+.orden button.activo {
+  background: var(--dorado);
+  color: var(--fondo);
+}
+
+.estado {
+  margin: 3rem 0;
+  text-align: center;
+  color: var(--texto-suave);
+  font-family: var(--f-titulo);
+  font-size: 1.2rem;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: var(--texto-suave);
+}
+
+.paginacion button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.fondo-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 100;
+}
+
+.modal {
+  width: min(100%, 420px);
+  padding: 1.75rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-top: 2px solid var(--error);
+  border-radius: var(--radio);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+.modal h3 {
+  margin-bottom: 0.5rem;
+}
+
+.modal p {
+  margin: 0 0 1.5rem;
+  color: var(--texto-suave);
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.acciones-modal .confirmar {
+  background: var(--error);
+  border-color: var(--error);
+  color: var(--fondo);
+}
+
+.acciones-modal .confirmar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
