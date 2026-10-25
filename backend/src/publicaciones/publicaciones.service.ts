@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, SortOrder, Types } from 'mongoose';
 import { Publicacion, PublicacionDocument } from './schemas/publicacion.schema';
@@ -55,5 +55,80 @@ export class PublicacionesService {
       .limit(limit)
       .populate('autor', 'nombreUsuario imagenPerfil')
       .exec();
+  }
+
+  async darMeGusta(id: string, usuarioId: string) {
+    this.validarId(id);
+    const usuario = new Types.ObjectId(usuarioId);
+
+    const publicacion = await this.publicacionModel
+      .findOneAndUpdate(
+        { _id: id, activo: true, meGusta: { $ne: usuario } },
+        { $addToSet: { meGusta: usuario }, $inc: { cantidadMeGusta: 1 } },
+        { returnDocument: 'after' },
+      )
+      .populate('autor', 'nombreUsuario imagenPerfil')
+      .exec();
+
+    if (!publicacion) {
+      await this.verificarQueExiste(id);
+      throw new BadRequestException('Ya le diste me gusta a esta publicación');
+    }
+
+    return publicacion;
+  }
+
+  async quitarMeGusta(id: string, usuarioId: string) {
+    this.validarId(id);
+    const usuario = new Types.ObjectId(usuarioId);
+
+    const publicacion = await this.publicacionModel
+      .findOneAndUpdate(
+        { _id: id, activo: true, meGusta: usuario },
+        { $pull: { meGusta: usuario }, $inc: { cantidadMeGusta: -1 } },
+        { returnDocument: 'after' },
+      )
+      .populate('autor', 'nombreUsuario imagenPerfil')
+      .exec();
+
+    if (!publicacion) {
+      await this.verificarQueExiste(id);
+      throw new BadRequestException('No le habías dado me gusta a esta publicación');
+    }
+
+    return publicacion;
+  }
+
+  async eliminar(id: string, usuarioId: string, perfil: string) {
+    this.validarId(id);
+
+    const publicacion = await this.publicacionModel.findOne({ _id: id, activo: true }).exec();
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+
+    const esAutor = publicacion.autor.toString() === usuarioId;
+    const esAdministrador = perfil === 'administrador';
+    if (!esAutor && !esAdministrador) {
+      throw new ForbiddenException('Solo el autor o un administrador puede eliminar esta publicación');
+    }
+
+    publicacion.activo = false;
+    await publicacion.save();
+
+    return { mensaje: 'Publicación eliminada' };
+  }
+
+  private validarId(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('La publicación no es válida');
+    }
+  }
+
+  private async verificarQueExiste(id: string) {
+    const existe = await this.publicacionModel.exists({ _id: id, activo: true });
+    if (!existe) {
+      throw new NotFoundException('La publicación no existe');
+    }
   }
 }

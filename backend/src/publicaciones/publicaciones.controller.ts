@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicacionesService } from './publicaciones.service';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto';
@@ -28,5 +28,20 @@ export class PublicacionesController {
     @Query('usuario') usuario?: string,
   ) {
     return this.publicacionesService.obtenerTodas(offset, limit, orden, usuario);
+  }
+
+  @Post(':id/me-gusta')
+  darMeGusta(@Param('id') id: string, @Req() pedido: PedidoConUsuario) {
+    return this.publicacionesService.darMeGusta(id, pedido.usuario.sub);
+  }
+
+  @Delete(':id/me-gusta')
+  quitarMeGusta(@Param('id') id: string, @Req() pedido: PedidoConUsuario) {
+    return this.publicacionesService.quitarMeGusta(id, pedido.usuario.sub);
+  }
+
+  @Delete(':id')
+  eliminar(@Param('id') id: string, @Req() pedido: PedidoConUsuario) {
+    return this.publicacionesService.eliminar(id, pedido.usuario.sub, pedido.usuario.perfil);
   }
 }
