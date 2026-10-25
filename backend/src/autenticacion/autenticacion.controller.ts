@@ -1,8 +1,10 @@
-import {  Body,  Controller,  HttpCode,  Post,  UploadedFile,  UseInterceptors,} from '@nestjs/common';
+import {  Body,  Controller,  HttpCode,  Post,  Req,  UploadedFile,  UseGuards,  UseInterceptors,} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AutenticacionService } from './autenticacion.service';
 import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
+import { TokenGuard } from './token.guard';
+import type { PedidoConUsuario } from './token.guard';
 
 @Controller('autenticacion')
 export class AutenticacionController {
@@ -18,5 +20,12 @@ export class AutenticacionController {
   @HttpCode(200)
   login(@Body() datos: LoginDto) {
     return this.autenticacionService.login(datos);
+  }
+
+  @Post('autorizar')
+  @HttpCode(200)
+  @UseGuards(TokenGuard)
+  autorizar(@Req() pedido: PedidoConUsuario) {
+    return this.autenticacionService.autorizar(pedido.usuario.sub);
   }
 }

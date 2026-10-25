@@ -41,6 +41,18 @@ export class Auth {
     await firstValueFrom(this.http.post(`${this.url}/registro`, formulario));
   }
 
+  async restaurarSesion(): Promise<void> {
+    if (!localStorage.getItem('token')) {
+      return;
+    }
+    try {
+      const usuario = await firstValueFrom(this.http.post<Usuario>(`${this.url}/autorizar`, null));
+      this.usuario.set(usuario);
+    } catch {
+      localStorage.removeItem('token');
+    }
+  }
+
   cerrarSesion(): void {
     localStorage.removeItem('token');
     this.usuario.set(null);

@@ -21,4 +21,8 @@ export class UsuariosService {
   async crear(datos: Partial<Usuario>) {
     return this.usuarioModel.create(datos);
   }
+
+  async buscarPorId(id: string) {
+    return this.usuarioModel.findById(id).select('-clave').exec();
+  }
 }

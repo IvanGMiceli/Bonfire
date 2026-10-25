@@ -76,4 +76,12 @@ export class AutenticacionService {
     const { clave, ...usuarioSinClave } = usuario.toObject();
     return { usuario: usuarioSinClave, token };
   }
+
+  async autorizar(usuarioId: string) {
+    const usuario = await this.usuariosService.buscarPorId(usuarioId);
+    if (!usuario) {
+      throw new UnauthorizedException('El usuario del token no existe');
+    }
+    return usuario;
+  }
 }
