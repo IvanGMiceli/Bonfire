@@ -30,6 +30,11 @@ export class Login {
   error = signal<string | null>(null);
   cargando = signal(false);
 
+  entrarComoPrueba() {
+    this.modelo.set({ correoOUsuario: 'ivancito', clave: 'Prueba123' });
+    this.ingresar();
+  }
+
   async ingresar() {
     if (this.formulario().invalid()) {
       this.error.set('Completá los campos correctamente');

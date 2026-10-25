@@ -4,3 +4,27 @@
   font-size: 0.9rem;
   color: var(--texto-suave);
 }
+
+.boton-prueba {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: 1px solid var(--dorado);
+  border-radius: 8px;
+  color: var(--dorado);
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.boton-prueba:hover:not(:disabled) {
+  background: rgba(201, 162, 77, 0.12);
+}
+
+.boton-prueba:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

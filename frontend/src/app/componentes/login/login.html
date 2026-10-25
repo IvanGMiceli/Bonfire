@@ -34,5 +34,9 @@
     {{ cargando() ? 'Encendiendo la hoguera...' : 'Ingresar' }}
   </button>
 
+  <button type="button" class="boton-prueba" (click)="entrarComoPrueba()" [disabled]="cargando()">
+    Auto-login
+  </button>
+
   <p class="alternativa">¿Todavía no tenés cuenta? <a routerLink="/registro">Registrate</a></p>
 </section>
