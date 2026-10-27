@@ -18,8 +18,6 @@
           <dd>{{ usuario.correo }}</dd>
           <dt>Nacimiento</dt>
           <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
-          <dt>Perfil</dt>
-          <dd class="rol">{{ usuario.perfil }}</dd>
           <dt>En Bonfire desde</dt>
           <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
         </dl>

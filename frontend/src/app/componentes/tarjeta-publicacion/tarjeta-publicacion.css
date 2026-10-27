@@ -35,6 +35,7 @@
 .datos-autor {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   line-height: 1.25;
 }
 
@@ -42,6 +43,7 @@
   font-family: var(--f-titulo);
   font-size: 1.1rem;
   color: var(--ambar);
+  overflow-wrap: anywhere;
 }
 
 .fecha {
@@ -52,6 +54,7 @@
 h3 {
   margin-bottom: 0.5rem;
   font-size: 1.35rem;
+  overflow-wrap: anywhere;
 }
 
 .mensaje {
