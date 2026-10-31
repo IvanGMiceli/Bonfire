@@ -89,4 +89,9 @@ export class AutenticacionService {
     }
     return usuario;
   }
+
+  async refrescar(usuarioId: string, perfil: string) {
+    const token = await this.jwtService.signAsync({ sub: usuarioId, perfil });
+    return { token };
+  }
 }

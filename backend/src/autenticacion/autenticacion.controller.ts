@@ -28,4 +28,11 @@ export class AutenticacionController {
   autorizar(@Req() pedido: PedidoConUsuario) {
     return this.autenticacionService.autorizar(pedido.usuario.sub);
   }
+
+  @Post('refrescar')
+  @HttpCode(200)
+  @UseGuards(TokenGuard)
+  refrescar(@Req() pedido: PedidoConUsuario) {
+    return this.autenticacionService.refrescar(pedido.usuario.sub, pedido.usuario.perfil);
+  }
 }
