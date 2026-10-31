@@ -53,6 +53,19 @@ export class Auth {
     }
   }
 
+  async actualizarPerfil(correo: string, nombreUsuario: string, imagen: File | null): Promise<void> {
+    const formulario = new FormData();
+    formulario.append('correo', correo);
+    formulario.append('nombreUsuario', nombreUsuario);
+    if (imagen) {
+      formulario.append('imagenPerfil', imagen);
+    }
+    const usuario = await firstValueFrom(
+      this.http.patch<Usuario>(`${environment.apiUrl}/usuarios/perfil`, formulario),
+    );
+    this.usuario.set(usuario);
+  }
+
   cerrarSesion(): void {
     localStorage.removeItem('token');
     this.usuario.set(null);

@@ -21,8 +21,58 @@
           <dt>En Bonfire desde</dt>
           <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
         </dl>
+
+        @if (exito()) {
+          <p class="mensaje-exito exito-perfil">{{ exito() }}</p>
+        }
+
+        @if (!editando()) {
+          <button type="button" class="boton-editar" (click)="empezarEdicion()">Editar perfil</button>
+        }
       </div>
     </div>
+
+    @if (editando()) {
+      <section class="edicion">
+        <h3>Editar perfil</h3>
+
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input id="correo" type="email" [formField]="formularioEdicion.correo" />
+          @if (formularioEdicion.correo().touched() && formularioEdicion.correo().invalid()) {
+            @for (err of formularioEdicion.correo().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+
+        <div class="campo">
+          <label for="nombreUsuario">Nombre de usuario</label>
+          <input id="nombreUsuario" type="text" [formField]="formularioEdicion.nombreUsuario" />
+          @if (formularioEdicion.nombreUsuario().touched() && formularioEdicion.nombreUsuario().invalid()) {
+            @for (err of formularioEdicion.nombreUsuario().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+
+        <div class="campo">
+          <label for="imagenPerfil">Foto de perfil nueva (opcional)</label>
+          <input id="imagenPerfil" type="file" accept="image/png, image/jpeg, image/webp" (change)="elegirImagen($event)" />
+        </div>
+
+        @if (errorEdicion()) {
+          <p class="mensaje-error">{{ errorEdicion() }}</p>
+        }
+
+        <div class="acciones-edicion">
+          <button type="button" class="cancelar" (click)="cancelarEdicion()" [disabled]="guardando()">Cancelar</button>
+          <button type="button" class="guardar" (click)="guardarPerfil()" [disabled]="guardando()">
+            {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </section>
+    }
 
     <h3 class="subtitulo">Mis últimas publicaciones</h3>
 

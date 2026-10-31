@@ -68,6 +68,78 @@ dd {
   overflow-wrap: anywhere;
 }
 
+.exito-perfil {
+  margin: 1.25rem 0 0;
+}
+
+.boton-editar {
+  margin-top: 1.25rem;
+  padding: 0.4rem 1.1rem;
+  background: transparent;
+  border: 1px solid var(--dorado);
+  border-radius: 8px;
+  color: var(--dorado);
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.boton-editar:hover {
+  background: rgba(201, 162, 77, 0.12);
+}
+
+.edicion {
+  margin-top: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-top: 2px solid var(--dorado);
+  border-radius: var(--radio);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.edicion h3 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.acciones-edicion {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.acciones-edicion button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.acciones-edicion .cancelar {
+  background: transparent;
+  border: 1px solid var(--borde);
+  color: var(--texto-suave);
+}
+
+.acciones-edicion .guardar {
+  background: var(--brasa);
+  border: 1px solid var(--brasa);
+  color: var(--fondo);
+}
+
+.acciones-edicion .guardar:hover:not(:disabled) {
+  background: var(--brasa-clara);
+}
+
+.acciones-edicion button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .subtitulo {
   margin: 2.5rem 0 1.25rem;
   font-size: 1.5rem;
