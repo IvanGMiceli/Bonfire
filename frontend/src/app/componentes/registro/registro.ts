@@ -69,7 +69,7 @@ export class Registro {
 
     try {
       await this.auth.registrarse(datos, this.imagen());
-      this.router.navigate(['/login'], { queryParams: { registrado: 1 } });
+      this.router.navigateByUrl('/publicaciones');
     } catch (e) {
       this.error.set(mensajeDeError(e));
     } finally {

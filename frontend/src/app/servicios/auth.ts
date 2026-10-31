@@ -38,7 +38,11 @@ export class Auth {
     if (imagen) {
       formulario.append('imagenPerfil', imagen);
     }
-    await firstValueFrom(this.http.post(`${this.url}/registro`, formulario));
+    const respuesta = await firstValueFrom(
+      this.http.post<{ usuario: Usuario; token: string }>(`${this.url}/registro`, formulario),
+    );
+    localStorage.setItem('token', respuesta.token);
+    this.usuario.set(respuesta.usuario);
   }
 
   async restaurarSesion(): Promise<void> {

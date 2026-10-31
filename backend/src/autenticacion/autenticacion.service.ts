@@ -5,6 +5,7 @@ import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { AlmacenamientoService } from '../almacenamiento/almacenamiento.service';
+import { UsuarioDocument } from '../usuarios/schemas/usuario.schema';
 
 @Injectable()
 export class AutenticacionService {
@@ -39,7 +40,7 @@ export class AutenticacionService {
       imagenPerfil = await this.almacenamientoService.subirImagen(imagen, 'perfiles');
     }
 
-    await this.usuariosService.crear({
+    const usuario = await this.usuariosService.crear({
       nombre: datos.nombre,
       apellido: datos.apellido,
       correo: datos.correo,
@@ -50,7 +51,7 @@ export class AutenticacionService {
       imagenPerfil,
     });
 
-    return { mensaje: 'Usuario registrado' };
+    return this.respuestaConToken(usuario);
   }
 
   async login(datos: LoginDto) {
@@ -68,6 +69,10 @@ export class AutenticacionService {
       throw new UnauthorizedException('Usuario o contraseña incorrectos');
     }
 
+    return this.respuestaConToken(usuario);
+  }
+
+  private async respuestaConToken(usuario: UsuarioDocument) {
     const token = await this.jwtService.signAsync({
       sub: usuario._id.toString(),
       perfil: usuario.perfil,

@@ -1,10 +1,6 @@
 <section class="caja">
   <h2>Iniciar sesión</h2>
 
-  @if (registrado) {
-    <p class="mensaje-exito">Cuenta creada. Ya podés iniciar sesión.</p>
-  }
-
   <div class="campo">
     <label for="correoOUsuario">Correo o nombre de usuario</label>
     <input id="correoOUsuario" type="text" [formField]="formulario.correoOUsuario" placeholder="ashen@bonfire.com o ashenone"/>
