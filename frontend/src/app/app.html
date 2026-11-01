@@ -63,4 +63,24 @@
   <main>
     <router-outlet />
   </main>
+
+  @if (auth.avisoSesion()) {
+    <div class="fondo-modal" (click)="ahoraNo()">
+      <div class="modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+        <h3>La hoguera se apaga</h3>
+        <p>Tu sesión vence en 5 minutos. ¿Querés extenderla?</p>
+
+        @if (errorAviso()) {
+          <p class="mensaje-error">{{ errorAviso() }}</p>
+        }
+
+        <div class="acciones-modal">
+          <button type="button" class="ahora-no" (click)="ahoraNo()" [disabled]="extendiendo()">Ahora no</button>
+          <button type="button" class="extender" (click)="extenderSesion()" [disabled]="extendiendo()">
+            {{ extendiendo() ? 'Avivando...' : 'Extender sesión' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 }

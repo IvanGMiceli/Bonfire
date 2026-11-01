@@ -11,6 +11,9 @@ export class Auth {
   private url = `${environment.apiUrl}/autenticacion`;
 
   usuario = signal<Usuario | null>(null);
+  avisoSesion = signal(false);
+
+  private alarma: ReturnType<typeof setTimeout> | null = null;
 
   async iniciarSesion(correoOUsuario: string, clave: string): Promise<void> {
     const respuesta = await firstValueFrom(
@@ -21,6 +24,7 @@ export class Auth {
     );
     localStorage.setItem('token', respuesta.token);
     this.usuario.set(respuesta.usuario);
+    this.prenderAlarma();
   }
 
   async registrarse(datos: Registro, imagen: File | null): Promise<void> {
@@ -43,6 +47,7 @@ export class Auth {
     );
     localStorage.setItem('token', respuesta.token);
     this.usuario.set(respuesta.usuario);
+    this.prenderAlarma();
   }
 
   async restaurarSesion(): Promise<void> {
@@ -52,6 +57,7 @@ export class Auth {
     try {
       const usuario = await firstValueFrom(this.http.post<Usuario>(`${this.url}/autorizar`, null));
       this.usuario.set(usuario);
+      this.prenderAlarma();
     } catch {
       localStorage.removeItem('token');
     }
@@ -70,8 +76,34 @@ export class Auth {
     this.usuario.set(usuario);
   }
 
+  async extenderSesion(): Promise<void> {
+    const respuesta = await firstValueFrom(
+      this.http.post<{ token: string }>(`${this.url}/refrescar`, null),
+    );
+    localStorage.setItem('token', respuesta.token);
+    this.prenderAlarma();
+  }
+
+  cerrarAviso(): void {
+    this.avisoSesion.set(false);
+  }
+
   cerrarSesion(): void {
     localStorage.removeItem('token');
     this.usuario.set(null);
+    this.apagarAlarma();
+  }
+
+  private prenderAlarma(): void {
+    this.apagarAlarma();
+    this.alarma = setTimeout(() => this.avisoSesion.set(true), environment.avisoSesionMs);
+  }
+
+  private apagarAlarma(): void {
+    if (this.alarma) {
+      clearTimeout(this.alarma);
+      this.alarma = null;
+    }
+    this.avisoSesion.set(false);
   }
 }

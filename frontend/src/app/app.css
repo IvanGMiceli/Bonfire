@@ -81,6 +81,80 @@ main {
   margin: 0 auto;
 }
 
+.fondo-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 100;
+}
+
+.modal {
+  width: min(100%, 420px);
+  padding: 1.75rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-top: 2px solid var(--brasa);
+  border-radius: var(--radio);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+.modal h3 {
+  margin-bottom: 0.5rem;
+}
+
+.modal p {
+  margin: 0 0 1.5rem;
+  color: var(--texto-suave);
+}
+
+.modal .mensaje-error {
+  margin-bottom: 1rem;
+  color: var(--error);
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.acciones-modal button {
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.acciones-modal .ahora-no {
+  background: transparent;
+  border: 1px solid var(--dorado);
+  color: var(--dorado);
+}
+
+.acciones-modal .ahora-no:hover:not(:disabled) {
+  background: rgba(201, 162, 77, 0.12);
+}
+
+.acciones-modal .extender {
+  background: var(--brasa);
+  border: 1px solid var(--brasa);
+  color: var(--fondo);
+}
+
+.acciones-modal .extender:hover:not(:disabled) {
+  background: var(--brasa-clara);
+}
+
+.acciones-modal button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .pantalla-carga {
   min-height: 100vh;
   display: flex;
