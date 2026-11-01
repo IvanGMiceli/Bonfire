@@ -1,23 +1,30 @@
-<nav class="barra">
-  <a class="marca" routerLink="/publicaciones">
-    <img src="favicon.ico" alt="" width="28" height="28" />
-    BONFIRE
-  </a>
-
-  <div class="enlaces">
-    <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
-
-    @if (auth.usuario(); as usuario) {
-      <a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
-      <span class="sesion">{{ usuario.nombreUsuario }}</span>
-      <button class="salir" (click)="salir()">Salir</button>
-    } @else {
-      <a routerLink="/login" routerLinkActive="activo">Login</a>
-      <a routerLink="/registro" routerLinkActive="activo">Registro</a>
-    }
+@if (cargando()) {
+  <div class="pantalla-carga">
+    <div class="spinner"></div>
+    <p class="texto-carga">Avivando la hoguera...</p>
   </div>
-</nav>
+} @else {
+  <nav class="barra">
+    <a class="marca" routerLink="/publicaciones">
+      <img src="favicon.ico" alt="" width="28" height="28" />
+      BONFIRE
+    </a>
 
-<main>
-  <router-outlet />
-</main>
+    <div class="enlaces">
+      <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
+
+      @if (auth.usuario(); as usuario) {
+        <a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
+        <span class="sesion">{{ usuario.nombreUsuario }}</span>
+        <button class="salir" (click)="salir()">Salir</button>
+      } @else {
+        <a routerLink="/login" routerLinkActive="activo">Login</a>
+        <a routerLink="/registro" routerLinkActive="activo">Registro</a>
+      }
+    </div>
+  </nav>
+
+  <main>
+    <router-outlet />
+  </main>
+}

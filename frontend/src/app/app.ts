@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Auth } from './servicios/auth';
 
@@ -9,9 +9,22 @@ import { Auth } from './servicios/auth';
   styleUrl: './app.css',
 })
 
-export class App {
+export class App implements OnInit {
   protected auth = inject(Auth);
   private router = inject(Router);
+
+  cargando = signal(true);
+
+  async ngOnInit() {
+    await this.auth.restaurarSesion();
+
+    const rutaPublica = ['/login', '/registro'].includes(window.location.pathname);
+    if (!this.auth.usuario() && !rutaPublica) {
+      await this.router.navigateByUrl('/login');
+    }
+
+    this.cargando.set(false);
+  }
 
   salir() {
     this.auth.cerrarSesion();
