@@ -1,6 +1,42 @@
 @if (cargando()) {
   <div class="pantalla-carga">
-    <div class="spinner"></div>
+    <svg class="hoguera" viewBox="0 0 140 160" aria-hidden="true">
+      <defs>
+        <linearGradient id="fuego-carga" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#9a3412" />
+          <stop offset="0.5" stop-color="#ea580c" />
+          <stop offset="1" stop-color="#fbbf24" />
+        </linearGradient>
+        <clipPath id="subida-carga">
+          <rect class="relleno" x="30" y="30" width="80" height="102" />
+        </clipPath>
+      </defs>
+
+      <path d="M70 10 L124 28 L124 72 C 124 110, 100 136, 70 150 C 40 136, 16 110, 16 72 L16 28 Z"
+            fill="#1c1814" stroke="#c9a24d" stroke-width="4" />
+      <path d="M70 20 L115 35 L115 72 C 115 104, 95 126, 70 139 C 45 126, 25 104, 25 72 L25 35 Z"
+            fill="none" stroke="#c9a24d" stroke-width="1" opacity="0.4" />
+
+      <g fill="#5b3a22" stroke="#3a2416" stroke-width="1.5">
+        <rect x="44" y="118" width="52" height="8" rx="4" transform="rotate(-12 70 122)" />
+        <rect x="44" y="118" width="52" height="8" rx="4" transform="rotate(12 70 122)" />
+      </g>
+
+      <path d="M70 40 C 82 58, 94 70, 91 92 C 89 108, 80 118, 70 118 C 60 118, 51 108, 49 92 C 47 74, 60 64, 64 50 C 67 60, 71 63, 74 64 C 75 56, 73 48, 70 40 Z"
+            fill="#3a2416" opacity="0.55" />
+
+      <g clip-path="url(#subida-carga)">
+        <g class="llama">
+          <path d="M70 40 C 82 58, 94 70, 91 92 C 89 108, 80 118, 70 118 C 60 118, 51 108, 49 92 C 47 74, 60 64, 64 50 C 67 60, 71 63, 74 64 C 75 56, 73 48, 70 40 Z"
+                fill="url(#fuego-carga)" />
+          <path d="M70 72 C 77 82, 83 90, 81 102 C 80 110, 75 115, 70 115 C 65 115, 60 110, 59 102 C 58 92, 65 86, 70 72 Z"
+                fill="#fde68a" opacity="0.75" />
+        </g>
+      </g>
+
+      <circle class="chispa" cx="60" cy="70" r="1.6" fill="#fbbf24" />
+      <circle class="chispa segunda" cx="80" cy="66" r="1.4" fill="#f97316" />
+    </svg>
     <p class="texto-carga">Avivando la hoguera...</p>
   </div>
 } @else {
