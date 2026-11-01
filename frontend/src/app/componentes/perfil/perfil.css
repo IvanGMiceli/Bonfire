@@ -182,6 +182,42 @@ dd {
   color: var(--texto-suave);
 }
 
+.comentario {
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--borde);
+}
+
+.comentario:first-of-type {
+  padding-top: 0.2rem;
+  border-top: none;
+}
+
+.cabecera-comentario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.autor-comentario {
+  font-family: var(--f-titulo);
+  font-size: 0.95rem;
+  color: var(--ambar);
+  overflow-wrap: anywhere;
+}
+
+.fecha-comentario {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.comentarios .texto-comentario {
+  margin-top: 0.15rem;
+  color: var(--texto);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 560px) {
   .ficha {
     flex-direction: column;

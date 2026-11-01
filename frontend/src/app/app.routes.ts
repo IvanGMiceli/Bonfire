@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./componentes/publicaciones/publicaciones').then((m) => m.Publicaciones),
   },
   {
+    path: 'publicacion/:id',
+    loadComponent: () =>
+      import('./componentes/detalle-publicacion/detalle-publicacion').then((m) => m.DetallePublicacion),
+  },
+  {
     path: 'login',
     loadComponent: () => import('./componentes/login/login').then((m) => m.Login),
   },

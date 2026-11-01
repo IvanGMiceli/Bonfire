@@ -1,4 +1,4 @@
-<article class="tarjeta">
+<article class="tarjeta" [class.grande]="enDetalle">
   <header class="autor">
     @if (publicacion.autor.imagenPerfil) {
       <img class="avatar" [src]="publicacion.autor.imagenPerfil" [alt]="publicacion.autor.nombreUsuario" />
@@ -23,8 +23,14 @@
       ☀ {{ publicacion.cantidadMeGusta }}
     </button>
 
-    @if (puedeEliminar) {
-      <button type="button" class="eliminar" (click)="eliminar.emit(publicacion)">Eliminar</button>
-    }
+    <div class="derecha">
+      @if (!enDetalle) {
+        <a class="ver" [routerLink]="['/publicacion', publicacion._id]">Comentarios</a>
+      }
+
+      @if (puedeEliminar) {
+        <button type="button" class="eliminar" (click)="eliminar.emit(publicacion)">Eliminar</button>
+      }
+    </div>
   </footer>
 </article>

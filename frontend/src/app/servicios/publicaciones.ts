@@ -20,6 +20,10 @@ export class PublicacionesService {
     return firstValueFrom(this.http.get<Publicacion[]>(this.url, { params: parametros }));
   }
 
+  obtener(id: string) {
+    return firstValueFrom(this.http.get<Publicacion>(`${this.url}/${id}`));
+  }
+
   crear(titulo: string, mensaje: string, imagen: File | null) {
     const formulario = new FormData();
     formulario.append('titulo', titulo);

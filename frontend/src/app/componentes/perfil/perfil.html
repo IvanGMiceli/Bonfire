@@ -95,7 +95,22 @@
 
             <div class="comentarios">
               <h4>Comentarios</h4>
-              <p>Todavía no hay comentarios.</p>
+              @for (comentario of comentariosPorPublicacion()[publicacion._id]; track comentario._id) {
+                <div class="comentario">
+                  <div class="cabecera-comentario">
+                    <span class="autor-comentario">{{ comentario.autor.nombreUsuario }}</span>
+                    <span class="fecha-comentario">
+                      {{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                      @if (comentario.modificado) {
+                        (editado)
+                      }
+                    </span>
+                  </div>
+                  <p class="texto-comentario">{{ comentario.mensaje }}</p>
+                </div>
+              } @empty {
+                <p>Todavía no hay comentarios.</p>
+              }
             </div>
           </div>
         }

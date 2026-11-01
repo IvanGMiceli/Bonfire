@@ -116,3 +116,36 @@ h3 {
 .eliminar:hover {
   background: rgba(248, 113, 113, 0.1);
 }
+
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ver {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  color: var(--texto-suave);
+  font-family: var(--f-titulo);
+  font-size: 1.05rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.ver:hover {
+  border-color: var(--dorado);
+  color: var(--dorado);
+}
+
+.grande h3 {
+  font-size: 1.9rem;
+}
+
+.grande .mensaje {
+  font-size: 1.1rem;
+}
+
+.grande .imagen {
+  max-height: 640px;
+}

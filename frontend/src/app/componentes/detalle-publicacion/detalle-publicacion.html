@@ -1,0 +1,107 @@
+<section class="pagina">
+  <a class="volver" routerLink="/publicaciones">← Volver a publicaciones</a>
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Avivando la hoguera...</p>
+  } @else if (publicacion(); as actual) {
+    <app-tarjeta-publicacion
+      [publicacion]="actual"
+      [enDetalle]="true"
+      [leDiMeGusta]="leDiMeGusta(actual)"
+      (meGusta)="alternarMeGusta($event)" />
+
+    <section class="comentarios">
+      <h3>Comentarios</h3>
+
+      <div class="nuevo">
+        <label for="nuevo-comentario">Tu comentario</label>
+        <textarea id="nuevo-comentario" [formField]="formularioNuevo.mensaje" placeholder="Dejá tu marca junto a la hoguera, Ashen One"></textarea>
+        <small class="contador">{{ modeloNuevo().mensaje.length }}/200</small>
+        @if (formularioNuevo.mensaje().touched() && formularioNuevo.mensaje().invalid()) {
+          @for (err of formularioNuevo.mensaje().errors(); track err) {
+            <small class="error-campo">{{ err.message }}</small>
+          }
+        }
+
+        @if (errorNuevo()) {
+          <p class="mensaje-error">{{ errorNuevo() }}</p>
+        }
+
+        <button type="button" class="boton" (click)="comentar()" [disabled]="enviando()">
+          {{ enviando() ? 'Enviando...' : 'Comentar' }}
+        </button>
+      </div>
+
+      @if (errorComentarios()) {
+        <p class="mensaje-error">{{ errorComentarios() }}</p>
+      }
+
+      <div class="lista-comentarios">
+        @for (comentario of comentarios(); track comentario._id) {
+          <article class="comentario">
+            <header class="autor">
+              @if (comentario.autor.imagenPerfil) {
+                <img class="avatar" [src]="comentario.autor.imagenPerfil" [alt]="comentario.autor.nombreUsuario" />
+              } @else {
+                <span class="avatar sin-foto">{{ comentario.autor.nombreUsuario.charAt(0) }}</span>
+              }
+
+              <div class="datos-autor">
+                <span class="nombre">{{ comentario.autor.nombreUsuario }}</span>
+                <span class="fecha">
+                  {{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                  @if (comentario.modificado) {
+                    <span class="editado">(editado)</span>
+                  }
+                </span>
+              </div>
+
+              @if (esMio(comentario) && editandoId() !== comentario._id) {
+                <button type="button" class="editar" (click)="empezarEdicion(comentario)">Editar</button>
+              }
+            </header>
+
+            @if (editandoId() === comentario._id) {
+              <div class="edicion">
+                <textarea [formField]="formularioEdicion.mensaje" aria-label="Editar comentario"></textarea>
+                <small class="contador">{{ modeloEdicion().mensaje.length }}/200</small>
+                @if (formularioEdicion.mensaje().invalid()) {
+                  @for (err of formularioEdicion.mensaje().errors(); track err) {
+                    <small class="error-campo">{{ err.message }}</small>
+                  }
+                }
+
+                @if (errorEdicion()) {
+                  <p class="mensaje-error">{{ errorEdicion() }}</p>
+                }
+
+                <div class="acciones-edicion">
+                  <button type="button" (click)="cancelarEdicion()" [disabled]="guardando()">Cancelar</button>
+                  <button type="button" class="guardar" (click)="guardarEdicion(comentario)" [disabled]="guardando()">
+                    {{ guardando() ? 'Guardando...' : 'Guardar' }}
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <p class="mensaje">{{ comentario.mensaje }}</p>
+            }
+          </article>
+        } @empty {
+          @if (!cargandoComentarios() && !errorComentarios()) {
+            <p class="estado">Todavía no hay comentarios. Sé el primero en dejar uno.</p>
+          }
+        }
+      </div>
+
+      @if (cargandoComentarios()) {
+        <p class="estado">Avivando la hoguera...</p>
+      } @else if (hayMas()) {
+        <button type="button" class="cargar-mas" (click)="cargarComentarios()">Cargar más</button>
+      }
+    </section>
+  }
+</section>

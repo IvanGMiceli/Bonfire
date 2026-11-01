@@ -57,6 +57,21 @@ export class PublicacionesService {
       .exec();
   }
 
+  async obtenerUna(id: string) {
+    this.validarId(id);
+
+    const publicacion = await this.publicacionModel
+      .findOne({ _id: id, activo: true })
+      .populate('autor', 'nombreUsuario imagenPerfil')
+      .exec();
+
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+
+    return publicacion;
+  }
+
   async darMeGusta(id: string, usuarioId: string) {
     this.validarId(id);
     const usuario = new Types.ObjectId(usuarioId);

@@ -30,6 +30,11 @@ export class PublicacionesController {
     return this.publicacionesService.obtenerTodas(offset, limit, orden, usuario);
   }
 
+  @Get(':id')
+  obtenerUna(@Param('id') id: string) {
+    return this.publicacionesService.obtenerUna(id);
+  }
+
   @Post(':id/me-gusta')
   darMeGusta(@Param('id') id: string, @Req() pedido: PedidoConUsuario) {
     return this.publicacionesService.darMeGusta(id, pedido.usuario.sub);

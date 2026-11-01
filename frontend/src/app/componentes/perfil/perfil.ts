@@ -4,7 +4,9 @@ import { FormField, email, form, required } from '@angular/forms/signals';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 import { Auth } from '../../servicios/auth';
 import { PublicacionesService } from '../../servicios/publicaciones';
+import { ComentariosService } from '../../servicios/comentarios';
 import { Publicacion } from '../../modelos/publicacion';
+import { Comentario } from '../../modelos/comentario';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 
 @Component({
@@ -16,9 +18,11 @@ import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 
 export class Perfil implements OnInit {
   private publicacionesService = inject(PublicacionesService);
+  private comentariosService = inject(ComentariosService);
   protected auth = inject(Auth);
 
   ultimas = signal<Publicacion[]>([]);
+  comentariosPorPublicacion = signal<Record<string, Comentario[]>>({});
   cargando = signal(false);
   error = signal<string | null>(null);
 
@@ -48,7 +52,19 @@ export class Perfil implements OnInit {
     this.cargando.set(true);
     this.error.set(null);
     try {
-      this.ultimas.set(await this.publicacionesService.listar(0, 3, 'fecha', miId));
+      const publicaciones = await this.publicacionesService.listar(0, 3, 'fecha', miId);
+
+      const listas = await Promise.all(
+        publicaciones.map((publicacion) => this.comentariosService.listar(publicacion._id, 0, 3)),
+      );
+
+      const fichero: Record<string, Comentario[]> = {};
+      publicaciones.forEach((publicacion, i) => {
+        fichero[publicacion._id] = listas[i];
+      });
+
+      this.comentariosPorPublicacion.set(fichero);
+      this.ultimas.set(publicaciones);
     } catch (e) {
       this.error.set(mensajeDeError(e));
     } finally {
