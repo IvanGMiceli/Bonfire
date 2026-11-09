@@ -6,6 +6,8 @@ import { PublicacionesService } from './publicaciones.service';
 import { PublicacionesController } from './publicaciones.controller';
 import { ComentariosService } from './comentarios.service';
 import { ComentariosController } from './comentarios.controller';
+import { EstadisticasService } from './estadisticas.service';
+import { EstadisticasController } from './estadisticas.controller';
 import { AlmacenamientoModule } from '../almacenamiento/almacenamiento.module';
 
 @Module({
@@ -16,7 +18,7 @@ import { AlmacenamientoModule } from '../almacenamiento/almacenamiento.module';
     ]),
     AlmacenamientoModule,
   ],
-  providers: [PublicacionesService, ComentariosService],
-  controllers: [PublicacionesController, ComentariosController],
+  providers: [PublicacionesService, ComentariosService, EstadisticasService],
+  controllers: [PublicacionesController, ComentariosController, EstadisticasController],
 })
 export class PublicacionesModule {}
