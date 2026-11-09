@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { RegistroDto } from './dto/registro.dto';
@@ -67,6 +67,10 @@ export class AutenticacionService {
     const claveCorrecta = await bcrypt.compare(datos.clave, usuario.clave);
     if (!claveCorrecta) {
       throw new UnauthorizedException('Usuario o contraseña incorrectos');
+    }
+
+    if (!usuario.activo) {
+      throw new ForbiddenException('Tu cuenta está deshabilitada. Comunicate con un administrador');
     }
 
     return this.respuestaConToken(usuario);
