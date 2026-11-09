@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsuariosService } from './usuarios.service';
 import { TokenGuard } from '../autenticacion/token.guard';
@@ -27,6 +27,19 @@ export class UsuariosController {
         @UploadedFile() imagen?: Express.Multer.File,
     ) {
         return this.usuariosService.actualizarPerfil(pedido.usuario.sub, datos, imagen);
+    }
+
+    @Delete(':id')
+    @UseGuards(TokenGuard, AdministradorGuard)
+    deshabilitar(@Param('id') id: string, @Req() pedido: PedidoConUsuario) {
+        return this.usuariosService.deshabilitar(id, pedido.usuario.sub);
+    }
+
+    @Post(':id/habilitar')
+    @HttpCode(200)
+    @UseGuards(TokenGuard, AdministradorGuard)
+    habilitar(@Param('id') id: string) {
+        return this.usuariosService.habilitar(id);
     }
 
 }
