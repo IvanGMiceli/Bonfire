@@ -1,8 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import * as bcrypt from 'bcryptjs';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto';
+import { CrearUsuarioDto } from './dto/crear-usuario.dto';
+import { RegistroDto } from '../autenticacion/dto/registro.dto';
 import { AlmacenamientoService } from '../almacenamiento/almacenamiento.service';
 
 @Injectable()
@@ -23,6 +26,47 @@ export class UsuariosService {
 
   async crear(datos: Partial<Usuario>) {
     return this.usuarioModel.create(datos);
+  }
+
+  async registrar(datos: RegistroDto, imagen?: Express.Multer.File, perfil = 'usuario') {
+    if (datos.clave !== datos.repetirClave) {
+      throw new BadRequestException('Las contraseñas no coinciden');
+    }
+
+    const existente = await this.buscarPorCorreoONombreUsuario(datos.correo, datos.nombreUsuario);
+
+    if (existente?.correo === datos.correo.toLowerCase()) {
+      throw new BadRequestException('El correo ya está registrado');
+    }
+
+    if (existente) {
+      throw new BadRequestException('El nombre de usuario ya está en uso');
+    }
+
+    const claveHasheada = await bcrypt.hash(datos.clave, 10);
+
+    let imagenPerfil: string | undefined;
+    if (imagen) {
+      imagenPerfil = await this.almacenamientoService.subirImagen(imagen, 'perfiles');
+    }
+
+    return this.crear({
+      nombre: datos.nombre,
+      apellido: datos.apellido,
+      correo: datos.correo,
+      nombreUsuario: datos.nombreUsuario,
+      clave: claveHasheada,
+      fechaNacimiento: new Date(datos.fechaNacimiento),
+      descripcion: datos.descripcion,
+      imagenPerfil,
+      perfil,
+    });
+  }
+
+  async crearDesdeAdministrador(datos: CrearUsuarioDto, imagen?: Express.Multer.File) {
+    const usuario = await this.registrar(datos, imagen, datos.perfil);
+    const { clave, ...usuarioSinClave } = usuario.toObject();
+    return usuarioSinClave;
   }
 
   async buscarPorId(id: string) {

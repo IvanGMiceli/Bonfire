@@ -5,6 +5,7 @@ import { TokenGuard } from '../autenticacion/token.guard';
 import { AdministradorGuard } from '../autenticacion/administrador.guard';
 import type { PedidoConUsuario } from '../autenticacion/token.guard';
 import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto';
+import { CrearUsuarioDto } from './dto/crear-usuario.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -16,6 +17,16 @@ export class UsuariosController {
     @UseGuards(TokenGuard, AdministradorGuard)
     obtenerTodos() {
         return this.usuariosService.obtenerTodos();
+    }
+
+    @Post()
+    @UseGuards(TokenGuard, AdministradorGuard)
+    @UseInterceptors(FileInterceptor('imagenPerfil'))
+    crear(
+        @Body() datos: CrearUsuarioDto,
+        @UploadedFile() imagen?: Express.Multer.File,
+    ) {
+        return this.usuariosService.crearDesdeAdministrador(datos, imagen);
     }
 
     @Patch('perfil')
