@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { administradorGuard } from './guardias/administrador';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,12 @@ export const routes: Routes = [
   {
     path: 'perfil',
     loadComponent: () => import('./componentes/perfil/perfil').then((m) => m.Perfil),
+  },
+  {
+    path: 'dashboard/usuarios',
+    canActivate: [administradorGuard],
+    loadComponent: () =>
+      import('./componentes/dashboard-usuarios/dashboard-usuarios').then((m) => m.DashboardUsuarios),
   },
   {
     path: 'error',

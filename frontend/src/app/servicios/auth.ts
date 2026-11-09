@@ -14,6 +14,7 @@ export class Auth {
   avisoSesion = signal(false);
 
   private alarma: ReturnType<typeof setTimeout> | null = null;
+  private restauracion: Promise<void> | null = null;
 
   async iniciarSesion(correoOUsuario: string, clave: string): Promise<void> {
     const respuesta = await firstValueFrom(
@@ -50,7 +51,12 @@ export class Auth {
     this.prenderAlarma();
   }
 
-  async restaurarSesion(): Promise<void> {
+  restaurarSesion(): Promise<void> {
+    this.restauracion ??= this.validarTokenGuardado();
+    return this.restauracion;
+  }
+
+  private async validarTokenGuardado(): Promise<void> {
     if (!localStorage.getItem('token')) {
       return;
     }

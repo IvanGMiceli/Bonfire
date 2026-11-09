@@ -1,0 +1,196 @@
+<section class="pagina">
+  <header class="encabezado">
+    <h2>Usuarios</h2>
+    <button type="button" class="boton-secundario" (click)="alternarFormulario()">
+      {{ mostrarFormulario() ? 'Cerrar formulario' : '+ Nuevo usuario' }}
+    </button>
+  </header>
+
+  @if (exitoAlta()) {
+    <p class="mensaje-exito">{{ exitoAlta() }}</p>
+  }
+
+  @if (mostrarFormulario()) {
+    <section class="alta">
+      <h3>Nuevo usuario</h3>
+
+      <fieldset class="perfil">
+        <legend>Perfil</legend>
+        <label class="opcion">
+          <input type="radio" name="perfil" value="usuario" [checked]="perfil() === 'usuario'" (change)="perfil.set('usuario')" />
+          Usuario
+        </label>
+        <label class="opcion">
+          <input type="radio" name="perfil" value="administrador" [checked]="perfil() === 'administrador'" (change)="perfil.set('administrador')" />
+          Administrador
+        </label>
+      </fieldset>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="alta-nombre">Nombre</label>
+          <input id="alta-nombre" type="text" [formField]="formulario.nombre" />
+          @if (formulario.nombre().touched() && formulario.nombre().invalid()) {
+            @for (err of formulario.nombre().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+        <div class="campo">
+          <label for="alta-apellido">Apellido</label>
+          <input id="alta-apellido" type="text" [formField]="formulario.apellido" />
+          @if (formulario.apellido().touched() && formulario.apellido().invalid()) {
+            @for (err of formulario.apellido().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="alta-correo">Correo</label>
+          <input id="alta-correo" type="email" [formField]="formulario.correo" />
+          @if (formulario.correo().touched() && formulario.correo().invalid()) {
+            @for (err of formulario.correo().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+        <div class="campo">
+          <label for="alta-nombreUsuario">Nombre de usuario</label>
+          <input id="alta-nombreUsuario" type="text" [formField]="formulario.nombreUsuario" />
+          @if (formulario.nombreUsuario().touched() && formulario.nombreUsuario().invalid()) {
+            @for (err of formulario.nombreUsuario().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="alta-clave">Contraseña</label>
+          <input id="alta-clave" type="password" [formField]="formulario.clave" placeholder="Mínimo 8 caracteres" />
+          @if (formulario.clave().touched() && formulario.clave().invalid()) {
+            @for (err of formulario.clave().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+        <div class="campo">
+          <label for="alta-repetirClave">Repetir contraseña</label>
+          <input id="alta-repetirClave" type="password" [formField]="formulario.repetirClave" />
+          @if (formulario.repetirClave().touched() && formulario.repetirClave().invalid()) {
+            @for (err of formulario.repetirClave().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="campo">
+          <label for="alta-fechaNacimiento">Fecha de nacimiento</label>
+          <input id="alta-fechaNacimiento" type="date" [formField]="formulario.fechaNacimiento" />
+          @if (formulario.fechaNacimiento().touched() && formulario.fechaNacimiento().invalid()) {
+            @for (err of formulario.fechaNacimiento().errors(); track err) {
+              <small class="error-campo">{{ err.message }}</small>
+            }
+          }
+        </div>
+        <div class="campo">
+          <label for="alta-imagen">Foto de perfil (opcional)</label>
+          <input #selectorImagen id="alta-imagen" type="file" accept="image/png, image/jpeg, image/webp" (change)="elegirImagen($event)" />
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="alta-descripcion">Descripción breve (opcional)</label>
+        <textarea id="alta-descripcion" [formField]="formulario.descripcion"></textarea>
+        @if (formulario.descripcion().touched() && formulario.descripcion().invalid()) {
+          @for (err of formulario.descripcion().errors(); track err) {
+            <small class="error-campo">{{ err.message }}</small>
+          }
+        }
+      </div>
+
+      @if (errorAlta()) {
+        <p class="mensaje-error">{{ errorAlta() }}</p>
+      }
+
+      <button type="button" class="boton" (click)="crear(selectorImagen)" [disabled]="creando()">
+        {{ creando() ? 'Encendiendo la hoguera...' : 'Crear usuario' }}
+      </button>
+    </section>
+  }
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+    <p class="estado">Avivando la hoguera...</p>
+  } @else {
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario._id) {
+            <tr [class.inactivo]="!usuario.activo">
+              <td>
+                <div class="quien">
+                  @if (usuario.imagenPerfil) {
+                    <img class="avatar" [src]="usuario.imagenPerfil" [alt]="usuario.nombreUsuario" />
+                  } @else {
+                    <span class="avatar sin-foto">{{ usuario.nombreUsuario.charAt(0) }}</span>
+                  }
+                  <span class="nombre-usuario">{{ usuario.nombreUsuario }}</span>
+                </div>
+              </td>
+              <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+              <td class="correo">{{ usuario.correo }}</td>
+              <td>
+                <span class="etiqueta" [class.admin]="usuario.perfil === 'administrador'">
+                  {{ usuario.perfil === 'administrador' ? 'Administrador' : 'Usuario' }}
+                </span>
+              </td>
+              <td>
+                <span class="estado-usuario" [class.habilitado]="usuario.activo">
+                  {{ usuario.activo ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </td>
+              <td class="accion">
+                @if (esYo(usuario)) {
+                  <span class="vos">Vos</span>
+                } @else {
+                  <button
+                    type="button"
+                    [class.deshabilitar]="usuario.activo"
+                    [class.habilitar]="!usuario.activo"
+                    [disabled]="procesandoId() === usuario._id"
+                    (click)="cambiarEstado(usuario)">
+                    {{ procesandoId() === usuario._id ? '...' : usuario.activo ? 'Deshabilitar' : 'Habilitar' }}
+                  </button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="vacio">Todavía no hay usuarios.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
