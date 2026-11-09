@@ -1,0 +1,52 @@
+<section class="pagina">
+  <header class="encabezado">
+    <h2>Estadísticas</h2>
+
+    <div class="filtros">
+      <div class="campo-fecha">
+        <label for="desde">Desde</label>
+        <input id="desde" type="date" [value]="desde()" (change)="cambiarDesde($event)" />
+      </div>
+      <div class="campo-fecha">
+        <label for="hasta">Hasta</label>
+        <input id="hasta" type="date" [value]="hasta()" (change)="cambiarHasta($event)" />
+      </div>
+      <button type="button" class="ver" (click)="ver()" [disabled]="cargando()">
+        {{ cargando() ? 'Avivando...' : 'Ver' }}
+      </button>
+    </div>
+  </header>
+
+  @if (error()) {
+    <p class="mensaje-error">{{ error() }}</p>
+  }
+
+  <div class="graficos">
+    <article class="tarjeta-grafico">
+      <h3>Publicaciones por usuario</h3>
+      @if (sinPublicaciones()) {
+        <p class="sin-datos">No hubo publicaciones en este lapso.</p>
+      }
+      <div class="lienzo">
+        <canvas #lienzoUsuarios></canvas>
+      </div>
+    </article>
+
+    <article class="tarjeta-grafico">
+      <h3>Comentarios por publicación</h3>
+      @if (sinComentarios()) {
+        <p class="sin-datos">No hubo comentarios en este lapso.</p>
+      }
+      <div class="lienzo">
+        <canvas #lienzoPublicaciones></canvas>
+      </div>
+    </article>
+
+    <article class="tarjeta-grafico ancha">
+      <h3>Comentarios por día</h3>
+      <div class="lienzo">
+        <canvas #lienzoDias></canvas>
+      </div>
+    </article>
+  </div>
+</section>

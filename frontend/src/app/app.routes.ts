@@ -36,6 +36,14 @@ export const routes: Routes = [
       import('./componentes/dashboard-usuarios/dashboard-usuarios').then((m) => m.DashboardUsuarios),
   },
   {
+    path: 'dashboard/estadisticas',
+    canActivate: [administradorGuard],
+    loadComponent: () =>
+      import('./componentes/dashboard-estadisticas/dashboard-estadisticas').then(
+        (m) => m.DashboardEstadisticas,
+      ),
+  },
+  {
     path: 'error',
     loadComponent: () =>
       import('./componentes/error-component/error-component').then((m) => m.ErrorComponent),

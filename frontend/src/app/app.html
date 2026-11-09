@@ -53,6 +53,7 @@
         <a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
         @if (usuario.perfil === 'administrador') {
           <a routerLink="/dashboard/usuarios" routerLinkActive="activo">Usuarios</a>
+          <a routerLink="/dashboard/estadisticas" routerLinkActive="activo">Estadísticas</a>
         }
         <span class="sesion">{{ usuario.nombreUsuario }}</span>
         <button class="salir" (click)="salir()">Salir</button>
