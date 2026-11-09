@@ -2,6 +2,7 @@ import { Body, Controller, Get, Patch, Req, UploadedFile, UseGuards, UseIntercep
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsuariosService } from './usuarios.service';
 import { TokenGuard } from '../autenticacion/token.guard';
+import { AdministradorGuard } from '../autenticacion/administrador.guard';
 import type { PedidoConUsuario } from '../autenticacion/token.guard';
 import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto';
 
@@ -12,7 +13,7 @@ export class UsuariosController {
     ) {}
 
     @Get()
-    @UseGuards(TokenGuard)
+    @UseGuards(TokenGuard, AdministradorGuard)
     obtenerTodos() {
         return this.usuariosService.obtenerTodos();
     }
