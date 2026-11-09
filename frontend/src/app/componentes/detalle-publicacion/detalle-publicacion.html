@@ -49,13 +49,13 @@
               @if (comentario.autor.imagenPerfil) {
                 <img class="avatar" [src]="comentario.autor.imagenPerfil" [alt]="comentario.autor.nombreUsuario" />
               } @else {
-                <span class="avatar sin-foto">{{ comentario.autor.nombreUsuario.charAt(0) }}</span>
+                <span class="avatar sin-foto">{{ comentario.autor.nombreUsuario | inicial }}</span>
               }
 
               <div class="datos-autor">
                 <span class="nombre">{{ comentario.autor.nombreUsuario }}</span>
-                <span class="fecha">
-                  {{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                <span class="fecha" [title]="comentario.createdAt | date: 'dd/MM/yyyy HH:mm'">
+                  {{ comentario.createdAt | hace }}
                   @if (comentario.modificado) {
                     <span class="editado">(editado)</span>
                   }

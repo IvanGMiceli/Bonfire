@@ -152,7 +152,7 @@
                   @if (usuario.imagenPerfil) {
                     <img class="avatar" [src]="usuario.imagenPerfil" [alt]="usuario.nombreUsuario" />
                   } @else {
-                    <span class="avatar sin-foto">{{ usuario.nombreUsuario.charAt(0) }}</span>
+                    <span class="avatar sin-foto">{{ usuario.nombreUsuario | inicial }}</span>
                   }
                   <span class="nombre-usuario">{{ usuario.nombreUsuario }}</span>
                 </div>

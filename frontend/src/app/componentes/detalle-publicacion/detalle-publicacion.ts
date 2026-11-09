@@ -9,11 +9,13 @@ import { Auth } from '../../servicios/auth';
 import { Publicacion } from '../../modelos/publicacion';
 import { Comentario } from '../../modelos/comentario';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
+import { InicialPipe } from '../../pipes/inicial';
+import { HacePipe } from '../../pipes/hace';
 
 const POR_TANDA = 5;
 
 @Component({
-  imports: [DatePipe, RouterLink, FormField, TarjetaPublicacion],
+  imports: [DatePipe, RouterLink, FormField, TarjetaPublicacion, InicialPipe, HacePipe],
   selector: 'app-detalle-publicacion',
   styleUrl: './detalle-publicacion.css',
   templateUrl: './detalle-publicacion.html',

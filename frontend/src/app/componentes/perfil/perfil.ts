@@ -7,10 +7,13 @@ import { PublicacionesService } from '../../servicios/publicaciones';
 import { ComentariosService } from '../../servicios/comentarios';
 import { Publicacion } from '../../modelos/publicacion';
 import { Comentario } from '../../modelos/comentario';
+import { InicialPipe } from '../../pipes/inicial';
+import { HacePipe } from '../../pipes/hace';
+import { EdadPipe } from '../../pipes/edad';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
 
 @Component({
-  imports: [DatePipe, FormField, TarjetaPublicacion],
+  imports: [DatePipe, FormField, TarjetaPublicacion, InicialPipe, HacePipe, EdadPipe],
   selector: 'app-perfil',
   styleUrl: './perfil.css',
   templateUrl: './perfil.html',

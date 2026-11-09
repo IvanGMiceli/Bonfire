@@ -3,11 +3,11 @@
     @if (publicacion.autor.imagenPerfil) {
       <img class="avatar" [src]="publicacion.autor.imagenPerfil" [alt]="publicacion.autor.nombreUsuario" />
     } @else {
-      <span class="avatar sin-foto">{{ publicacion.autor.nombreUsuario.charAt(0) }}</span>
+      <span class="avatar sin-foto">{{ publicacion.autor.nombreUsuario | inicial }}</span>
     }
     <div class="datos-autor">
       <span class="nombre">{{ publicacion.autor.nombreUsuario }}</span>
-      <span class="fecha">{{ publicacion.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+      <span class="fecha" [title]="publicacion.createdAt | date: 'dd/MM/yyyy HH:mm'">{{ publicacion.createdAt | hace }}</span>
     </div>
   </header>
 

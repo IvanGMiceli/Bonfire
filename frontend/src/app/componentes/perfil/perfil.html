@@ -4,7 +4,7 @@
       @if (usuario.imagenPerfil) {
         <img class="foto" [src]="usuario.imagenPerfil" [alt]="usuario.nombreUsuario" />
       } @else {
-        <span class="foto sin-foto">{{ usuario.nombreUsuario.charAt(0) }}</span>
+        <span class="foto sin-foto">{{ usuario.nombreUsuario | inicial }}</span>
       }
 
       <div class="datos">
@@ -16,8 +16,8 @@
           <dd>{{ usuario.nombre }} {{ usuario.apellido }}</dd>
           <dt>Correo</dt>
           <dd>{{ usuario.correo }}</dd>
-          <dt>Nacimiento</dt>
-          <dd>{{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' : 'UTC' }}</dd>
+          <dt>Edad</dt>
+          <dd>{{ usuario.fechaNacimiento | edad }}</dd>
           <dt>En Bonfire desde</dt>
           <dd>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</dd>
         </dl>
@@ -99,8 +99,8 @@
                 <div class="comentario">
                   <div class="cabecera-comentario">
                     <span class="autor-comentario">{{ comentario.autor.nombreUsuario }}</span>
-                    <span class="fecha-comentario">
-                      {{ comentario.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                    <span class="fecha-comentario" [title]="comentario.createdAt | date: 'dd/MM/yyyy HH:mm'">
+                      {{ comentario.createdAt | hace }}
                       @if (comentario.modificado) {
                         (editado)
                       }

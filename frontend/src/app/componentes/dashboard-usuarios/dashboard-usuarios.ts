@@ -4,6 +4,7 @@ import { UsuariosService } from '../../servicios/usuarios';
 import { Auth } from '../../servicios/auth';
 import { Usuario } from '../../modelos/usuario';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
+import { InicialPipe } from '../../pipes/inicial';
 
 const FORMULARIO_VACIO = {
   nombre: '',
@@ -17,7 +18,7 @@ const FORMULARIO_VACIO = {
 };
 
 @Component({
-  imports: [FormField],
+  imports: [FormField, InicialPipe],
   selector: 'app-dashboard-usuarios',
   styleUrl: './dashboard-usuarios.css',
   templateUrl: './dashboard-usuarios.html',
