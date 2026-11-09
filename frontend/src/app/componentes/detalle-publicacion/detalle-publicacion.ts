@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormField, form, maxLength, required } from '@angular/forms/signals';
 import { TarjetaPublicacion } from '../tarjeta-publicacion/tarjeta-publicacion';
 import { PublicacionesService } from '../../servicios/publicaciones';
@@ -21,6 +21,7 @@ const POR_TANDA = 5;
 
 export class DetallePublicacion implements OnInit {
   private ruta = inject(ActivatedRoute);
+  private router = inject(Router);
   private publicacionesService = inject(PublicacionesService);
   private comentariosService = inject(ComentariosService);
   private auth = inject(Auth);
@@ -56,6 +57,10 @@ export class DetallePublicacion implements OnInit {
 
   guardando = signal(false);
   errorEdicion = signal<string | null>(null);
+
+  esAdmin = computed(() => this.auth.usuario()?.perfil === 'administrador');
+  confirmandoEliminacion = signal(false);
+  eliminando = signal(false);
 
   async ngOnInit() {
     this.id = this.ruta.snapshot.paramMap.get('id') ?? '';
@@ -172,6 +177,32 @@ export class DetallePublicacion implements OnInit {
       this.publicacion.set(actualizada);
     } catch (e) {
       this.error.set(mensajeDeError(e));
+    }
+  }
+
+  puedeEliminar(publicacion: Publicacion) {
+    return publicacion.autor._id === this.auth.usuario()?._id || this.esAdmin();
+  }
+
+  pedirConfirmacion() {
+    this.confirmandoEliminacion.set(true);
+  }
+
+  cancelarEliminacion() {
+    this.confirmandoEliminacion.set(false);
+  }
+
+  async confirmarEliminacion() {
+    this.eliminando.set(true);
+    this.error.set(null);
+    try {
+      await this.publicacionesService.eliminar(this.id);
+      this.router.navigateByUrl('/publicaciones');
+    } catch (e) {
+      this.error.set(mensajeDeError(e));
+      this.confirmandoEliminacion.set(false);
+    } finally {
+      this.eliminando.set(false);
     }
   }
 }

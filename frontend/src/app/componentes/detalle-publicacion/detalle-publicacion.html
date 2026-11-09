@@ -12,7 +12,9 @@
       [publicacion]="actual"
       [enDetalle]="true"
       [leDiMeGusta]="leDiMeGusta(actual)"
-      (meGusta)="alternarMeGusta($event)" />
+      [puedeEliminar]="puedeEliminar(actual)"
+      (meGusta)="alternarMeGusta($event)"
+      (eliminar)="pedirConfirmacion()" />
 
     <section class="comentarios">
       <h3>Comentarios</h3>
@@ -105,3 +107,19 @@
     </section>
   }
 </section>
+
+@if (confirmandoEliminacion() && publicacion(); as actual) {
+  <div class="fondo-modal" (click)="cancelarEliminacion()">
+    <div class="modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h3>¿Eliminar publicación?</h3>
+      <p>"{{ actual.titulo }}" y sus comentarios dejarán de verse en Bonfire.</p>
+
+      <div class="acciones-modal">
+        <button type="button" class="cancelar" (click)="cancelarEliminacion()" [disabled]="eliminando()">Cancelar</button>
+        <button type="button" class="confirmar" (click)="confirmarEliminacion()" [disabled]="eliminando()">
+          {{ eliminando() ? 'Eliminando...' : 'Eliminar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
