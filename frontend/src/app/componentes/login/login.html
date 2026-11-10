@@ -3,7 +3,7 @@
 
   <div class="campo">
     <label for="correoOUsuario">Correo o nombre de usuario</label>
-    <input id="correoOUsuario" type="text" [formField]="formulario.correoOUsuario" placeholder="ashen@bonfire.com o ashenone"/>
+    <input appAutofoco id="correoOUsuario" type="text" [formField]="formulario.correoOUsuario" placeholder="ashen@bonfire.com o ashenone"/>
     
     @if (formulario.correoOUsuario().touched() && formulario.correoOUsuario().invalid()) {
       @for (err of formulario.correoOUsuario().errors(); track err) {

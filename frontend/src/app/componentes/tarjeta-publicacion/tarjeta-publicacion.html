@@ -1,4 +1,4 @@
-<article class="tarjeta" [class.grande]="enDetalle">
+<article class="tarjeta" appResaltarAlPasar [class.grande]="enDetalle">
   <header class="autor">
     @if (publicacion.autor.imagenPerfil) {
       <img class="avatar" [src]="publicacion.autor.imagenPerfil" [alt]="publicacion.autor.nombreUsuario" />
@@ -19,7 +19,12 @@
   }
 
   <footer class="acciones">
-    <button type="button" class="me-gusta" [class.dado]="leDiMeGusta" (click)="meGusta.emit(publicacion)">
+    <button
+      type="button"
+      class="me-gusta"
+      [class.dado]="leDiMeGusta"
+      [appBrilloSegunMeGusta]="publicacion.cantidadMeGusta"
+      (click)="meGusta.emit(publicacion)">
       ☀ {{ publicacion.cantidadMeGusta }}
     </button>
 

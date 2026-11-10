@@ -44,7 +44,7 @@
 
       <div class="lista-comentarios">
         @for (comentario of comentarios(); track comentario._id) {
-          <article class="comentario">
+          <article class="comentario" appResaltarAlPasar="#c9a24d">
             <header class="autor">
               @if (comentario.autor.imagenPerfil) {
                 <img class="avatar" [src]="comentario.autor.imagenPerfil" [alt]="comentario.autor.nombreUsuario" />
@@ -69,7 +69,7 @@
 
             @if (editandoId() === comentario._id) {
               <div class="edicion">
-                <textarea [formField]="formularioEdicion.mensaje" aria-label="Editar comentario"></textarea>
+                <textarea appAutofoco [formField]="formularioEdicion.mensaje" aria-label="Editar comentario"></textarea>
                 <small class="contador">{{ modeloEdicion().mensaje.length }}/200</small>
                 @if (formularioEdicion.mensaje().invalid()) {
                   @for (err of formularioEdicion.mensaje().errors(); track err) {

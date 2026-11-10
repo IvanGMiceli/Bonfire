@@ -3,9 +3,10 @@ import { FormField, form, minLength, pattern, required } from '@angular/forms/si
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../servicios/auth';
 import { mensajeDeError } from '../../utilidades/mensaje-de-error';
+import { AutofocoDirective } from '../../directivas/autofoco';
 
 @Component({
-  imports: [FormField, RouterLink],
+  imports: [FormField, RouterLink, AutofocoDirective],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
