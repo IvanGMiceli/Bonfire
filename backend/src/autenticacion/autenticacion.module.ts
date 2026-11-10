@@ -13,7 +13,7 @@ import { AlmacenamientoModule } from '../almacenamiento/almacenamiento.module';
       global: true,
       useFactory: () => ({
         secret: process.env.JWT_SECRETO,
-        signOptions: { expiresIn: '2m' },
+        signOptions: { expiresIn: '15m' },
       }),
     }),
   ],
